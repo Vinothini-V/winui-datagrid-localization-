@@ -1,0 +1,66 @@
+﻿<Page
+    x:Class="Localization.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Localization"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:syncfusion="using:Syncfusion.UI.Xaml.DataGrid"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.DataContext>
+        <local:ViewModel/>
+    </Page.DataContext>
+    <Page.Resources>
+        <local:UnitpriceConverter x:Key="unitprice"/>
+        <local:TableSummaryRowConverter x:Key="summaryConverter" />
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+
+        <syncfusion:SfDataGrid x:Name="datagrid" 
+                         AutoGenerateColumns="False"
+                         AllowSorting="True"
+                         AllowEditing="True"
+                         ShowGroupDropArea="True"
+                         AllowFiltering="True"
+                         FilterRowPosition="Top"
+                         LiveDataUpdateMode="AllowDataShaping"
+                         NewItemPlaceholderPosition="AtEnd"
+                         AddNewRowPosition="Top"
+                         ShowRowHeader="True"
+                         AllowDeleting="True"
+                         FrozenRowsCount="2"
+                         SelectionMode="Single"
+                         ItemsSource="{Binding Orders}">
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn HeaderText="Auftragsnummer" MappingName="OrderID" />
+                <syncfusion:GridTextColumn HeaderText="Kundennummer" MappingName="CustomerID" IsCaseSensitiveFilterRow="True" ImmediateUpdateColumnFilter="True" />
+                <syncfusion:GridTextColumn HeaderText="Kundenname" MappingName="CustomerName" FilterRowCondition="BeginsWith" FilterRowOptionsVisibility="Collapsed" />
+                <syncfusion:GridTextColumn HeaderText="Land" MappingName="Country" />
+                <syncfusion:GridTextColumn HeaderText="Stückpreis" MappingName="UnitPrice" />
+                <syncfusion:GridCheckBoxColumn MappingName="IsDelivered" HeaderText="Wird geliefert" />
+            </syncfusion:SfDataGrid.Columns>
+
+            <syncfusion:SfDataGrid.StackedHeaderRows>
+                <syncfusion:StackedHeaderRow>
+                    <syncfusion:StackedHeaderRow.StackedColumns>
+                        <syncfusion:StackedColumn ChildColumns="OrderID,CustomerID,CustomerName,UnitPrice,Country" HeaderText="Verkaufsdetails" MappingName="SalesDetails"/>
+                    </syncfusion:StackedHeaderRow.StackedColumns>
+                </syncfusion:StackedHeaderRow>
+                <syncfusion:StackedHeaderRow>
+                    <syncfusion:StackedHeaderRow.StackedColumns>
+                        <syncfusion:StackedColumn ChildColumns="OrderID" HeaderText="Bestelldetails" MappingName="OrderDetails"/>
+                        <syncfusion:StackedColumn ChildColumns="CustomerID,CustomerName" HeaderText="Kundendetails" MappingName="CustomerDetails"/>
+                        <syncfusion:StackedColumn ChildColumns="UnitPrice,Country" HeaderText="Versanddetails" MappingName="ShippingDetails"/>
+                    </syncfusion:StackedHeaderRow.StackedColumns>
+                </syncfusion:StackedHeaderRow>
+            </syncfusion:SfDataGrid.StackedHeaderRows>
+
+        </syncfusion:SfDataGrid>
+
+    </Grid>
+</Page>
